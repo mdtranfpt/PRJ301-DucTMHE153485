@@ -82,11 +82,18 @@ public class TimeSheetController extends HttpServlet {
             }
         }
         for (Employee employee : employees) {
-            double salary =0;
+            double countLabour =0;
             for (int i=0;i<employee.getTimesheets().size();i++){
-                salary +=  employee.getTimesheets().get(i).getLabour() * labourSalary;
+                countLabour +=  employee.getTimesheets().get(i).getLabour();
             }
-            employee.setSalary(salary);
+            for (int i=0;i<employee.getLeaves().size();i++){
+                if (employee.getLeaves().get(i).getLicensed()){
+                    countLabour += 1 * employee.getLeaves().get(i).getTotalDays();
+                }else{
+                    countLabour -= 0.5 * employee.getLeaves().get(i).getTotalDays();
+                }
+            }
+            employee.setSalary(countLabour*labourSalary);
         }
         request.setAttribute("dates", dates);
         request.setAttribute("employees", employees);

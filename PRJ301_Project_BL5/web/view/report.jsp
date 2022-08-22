@@ -53,7 +53,14 @@
                             </c:forEach>
                             <c:forEach items="${e.leaves}" var="l">
                                 <c:if test="${l.from <= d and l.to >=d}">
-                                    V
+                                    <c:choose>
+                                        <c:when test="${l.licensed}">
+                                            CP
+                                        </c:when>
+                                        <c:when test="${!l.licensed}">
+                                            KP
+                                        </c:when>
+                                    </c:choose>
                                 </c:if>
                             </c:forEach>
                         </td>
